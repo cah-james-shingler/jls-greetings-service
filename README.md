@@ -16,14 +16,14 @@ Base template for Cardinal Health project
 
 Run the **cah-repo-init** to initialize the git validations (hooks):
 
- *  `Window `: run the cah-repo-init.bat 
+ *  `Window `: run the cah-repo-init.bat
 
- *  `Linux/Mac`: run the cah-repo-init.sh 
+ *  `Linux/Mac`: run the cah-repo-init.sh
 
 Remove Everything above this line
 ```
 ```
-The folder structure contains a working demo of pipeline, hello-world-pipelien-example; 
+The folder structure contains a working demo of pipeline, hello-world-pipelien-example;
 it just need to replace the configuration variables with the appropiate ones.
 ```
 ### Installing
@@ -76,11 +76,11 @@ Add additional notes about how to deploy this on a live system
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Authors
 
-* **Willie Cardinal** - *Initial work* - 
+* **Willie Cardinal** - *Initial work* -
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -89,3 +89,7 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 * Hat tip to https://gist.github.com/PurpleBooth
 
+## Additional notes
+* https://confluence.cardinalhealth.com/display/DevOPS/Configuring+Maven+Nexus+proxy+-+Gradle
+* http://gitignore.io/api/java,eclipse,java-web,intellij
+* https://confluence.cardinalhealth.com/display/API/Apigee+Onboarding
