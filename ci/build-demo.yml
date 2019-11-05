@@ -1,0 +1,23 @@
+# Example of a yml external file platform: linux
+# change the image accordingly to needs
+
+image_resource:
+  type: registry-image
+  source: 
+    repository: "nexus-nonprod.cardinalhealth.net:8445/anapsix/alpine-java"
+    tag: 8_jdk 
+
+inputs:
+  - name: project-source
+  - name: build-version
+outputs:
+  - name: sonarqube-analysis-input
+  - name: build-out
+  - name: build-version
+run:
+  path: "project-source/ci/tasks/build.sh"
+caches:
+  - path: .gradle/
+
+params:
+  TERM: -dumb

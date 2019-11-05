@@ -1,0 +1,86 @@
+# example pipeline by Carlo Vedovato
+#
+# The following example can be uploaded to Concourse with this command:
+#     fly -t <your target> sp -c helloworld-pipe-example.yml -p hw-pipe -l config.yml 
+#
+# you must update the config variables in config.yml and create the deploy key
+#   for your own repository in Vault under common.GIT_HELLOWORLD_PK
+#
+# DO NOT PUT CREDENTIALS/PASWORDS IN config.yml, IN THE PIPELINE, or IN GITHUB SINCE THEY ARE ACCESSIBLE BY EVERYONE
+
+env-params: &env-params
+ CURRENT_ENV: ((CURRENT_ENV))
+ APP_NAME: ((appName))
+
+resources:
+# The GIT resource from where to pull the source code
+  - name: project-source
+    type: git
+    source:
+      uri: ((GIT_REPO))
+      branch: master
+      private_key: ((common.GIT_HELLOWORLD_PK)) #use secret in Vault 
+      ignore_paths: #ignore changes in version to avoid looping
+      - version/
+      
+# Concourse native semantic versioning resource; here we use git a a "version" folder
+# For info on usage refer to https://github.com/concourse/semver-resource
+  - name: build-version
+    type: semver
+    source:
+      driver: git
+      initial_version: 0.0.1
+      file: version/number
+      uri: ((GIT_REPO))
+      branch: ((GIT_BRANCH))
+      private_key: ((common.GIT_HELLOWORLD_PK))
+jobs:
+#Pull the source code, run unit test, build a new version ; update version, and run static analysis
+- name: build
+  serial: true
+  plan:
+  - get: project-source
+    trigger: true
+  - get: build-version 
+    params: ((VERSION_STRATEGY))  #increment the version- for bumping strategy see https://github.com/concourse/semver-resource#version-bumping-semantics
+
+  ## -- BEGIN TASK
+  - task: build
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: "nexus.cardinalhealth.net:8445/anapsix/alpine-java"
+          tag: 8_jdk 
+      inputs:
+        - name: project-source
+      run:
+        path: sh
+        args:
+          - "-ecx"
+          - |
+            #!/bin/bash
+            export TERM=${TERM:-dumb}
+            resource_dir=$(dirname $0)
+            echo ${resource_dir}
+            myname=((appName)) #use local defined vars in credential_demo.yml 
+            echo "Hello World - this app is $myname !!!"
+            echo "Building app..."
+            cd project-source/java-hello-world-with-gradle
+            ./gradlew build
+      #--END TASK 
+
+# Save current version (on Git file called "number" under "version" folder)
+# Be sure the pipeline run with the right credentials or this step will fail trying to commit 
+  - put: build-version 
+    params:
+     file: build-version/number
+
+  # the code between BEGIN and END TASK can be replaced with an external file
+  # to try, uncomment the lines below and comment everything between BEGIN and END
+  #
+  # - task: build
+  #   file: project-source/ci/tasks/build.yml
+  #   params:
+  #     <<: *env-params

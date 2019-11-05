@@ -1,0 +1,14 @@
+#Example only - replace with your own values
+appName: helloworld
+VERSION_STRATEGY: {bump: patch}
+CURRENT_ENV: 'dev'
+# change GIT_REPO to you repository 
+GIT_REPO: git@github.com:CardinalHealth/eadevsecops_sample_pipe.git
+GIT_BRANCH:  master
+
+
+NEXUS_URL: https://nexus.cardinalhealth.net/repository/cah-CI-CD-demo-release/
+NEXUS_SNAPSHOT_URL: https://nexus.cardinalhealth.net/repository/cah-CI-CD-demo-snapshot/
+NEXUS_TEMP_BUILD_URL: https://nexus.cardinalhealth.net/repository/cah-CI-CD-demo-snapshot/BUILD-TEMP/
+
+NEXUS_SECURITY_URL: https://nexus.cardinalhealth.net/repository/cah-security-tools
