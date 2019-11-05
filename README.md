@@ -91,5 +91,5 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## Additional notes
 * https://confluence.cardinalhealth.com/display/DevOPS/Configuring+Maven+Nexus+proxy+-+Gradle
-* http://gitignore.io/api/java,eclipse,java-web,intellij
+* http://gitignore.io/api/java,eclipse,java-web,intellij,gradle
 * https://confluence.cardinalhealth.com/display/API/Apigee+Onboarding
